@@ -69,8 +69,8 @@ OLog.withFormatConfig(FormatterConfig()).format(FormatterType.Json,dataJson)//�
 OLog.withFormatConfig(FormatterConfig()).format(FormatterType.Xml,dataXml)//自定义格式 格式化xml
 ```
 # show
-![Demo演示](http://git.okjiaoyu.cn/stu/oklog/raw/master/app/src/main/assets/image/device-2019-07-23-112941.png?inline=false)<br>
-![Demo演示](http://git.okjiaoyu.cn/stu/oklog/raw/master/app/src/main/assets/image/device-2019-07-23-113943.png?inline=false)<br>
+![Demo演示](https://github.com/liangjxljx/Olog/raw/master/app/src/main/assets/image/device-2019-07-23-112941.png)<br>
+![Demo演示](https://github.com/liangjxljx/Olog/raw/master/app/src/main/assets/image/device-2019-07-23-113943.png)<br>
 
 # About
 [前期设计](../Summary.md)<br>
