@@ -1,0 +1,82 @@
+apply plugin: 'maven'
+
+project.ext.config = [
+        "moduleSettings"         : [
+                "versionName": "0.0.2-SNAPSHOT",
+                "versionCode": 1],
+
+        "mavenRepositorySettings": [
+                "projectRepository" : "http://10.60.0.100:8081/repository/okayclient/",
+                "snapshotRepository": "http://10.60.0.100:8081/repository/okayclient_snapshot/",
+                "user"              : "wanghao",
+                "password"          : "123456"],
+
+        "mavenLibraySettings"    : [
+                "libName"   : "s_okloglib",
+                "artifactId": "s_okloglib",
+                "groupId"   : "com.okay.client_app"]
+]
+
+//refresh ext.config if needed
+setConfigFromExternalParams()
+
+def setConfigFromExternalParams() {
+    def config = project.ext.config
+
+    if (project.hasProperty('V_CODE')) {
+        config.moduleSettings.versionCode = Integer.parseInt(V_CODE)
+    } else {
+    }
+
+    if (project.hasProperty('V_NAME')) {
+        config.moduleSettings.versionName = V_NAME
+    } else {
+    }
+
+    println(project.name + ": ext.config: ")
+    println(new groovy.json.JsonBuilder(config).toPrettyString())
+}
+
+repositories {
+    jcenter()
+
+    maven {
+        url project.ext.config.mavenRepositorySettings.projectRepository
+    }
+    maven {
+        url project.ext.config.mavenRepositorySettings.snapshotRepository
+    }
+}
+
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        repository(url: project.ext.config.mavenRepositorySettings.projectRepository) {
+            authentication(userName: project.ext.config.mavenRepositorySettings.user, password: project.ext.config.mavenRepositorySettings.password)
+        }
+
+        snapshotRepository(url: project.ext.config.mavenRepositorySettings.snapshotRepository) {
+            authentication(userName: project.ext.config.mavenRepositorySettings.user, password: project.ext.config.mavenRepositorySettings.password)
+        }
+
+        pom.version = project.ext.config.moduleSettings.versionName
+        pom.artifactId = project.ext.config.mavenLibraySettings.artifactId
+        pom.groupId = project.ext.config.mavenLibraySettings.groupId
+        pom.name = project.ext.config.mavenLibraySettings.libName
+        pom.packaging = 'aar'
+    }
+}

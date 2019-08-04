@@ -1,0 +1,24 @@
+apply plugin: 'org.jetbrains.dokka-android'
+
+dokka {
+    // 模块名称
+//    moduleName = 'widget'
+    // 输出文档的格式
+    outputFormat = 'html'
+    // 输出文档的路径
+    outputDirectory = "$buildDir/javadoc"
+    // 设置此属性为default或者给定一个路径，
+    // 联网下载package-list时会缓存下来，缓存在$USER_HOME/.cache/dokka路径中
+    // 用来解决被墙住无法编译的问题，但第一次仍要翻墙编译
+    cacheRoot = 'default'
+    // 用于包含或排除非公共成员
+//    includeNonPublic = false
+    // 不输入已经弃用的成员。全局应用
+//    skipDeprecated = false
+    //发出有关未记录成员的警告。适用于全局
+//    reportUndocumented = true
+    //不为空包创建索引页面
+//    skipEmptyPackages = true
+    // 生成文档的包路径
+    sourceDirs = files('src/main/java')
+}
